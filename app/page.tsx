@@ -41,22 +41,47 @@ const initialState: FormState = {
   printedAt: "25/02/2026 10:55 AM",
 };
 
-const formatWeight = (value: string) => {
-  const numeric = Number(value);
-  if (!Number.isFinite(numeric)) {
-    return "";
-  }
-
-  return numeric.toLocaleString("en-IN", {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3,
-  });
-};
-
 const parseWeight = (value: string) => {
   const normalized = value.replaceAll(",", "").trim();
   const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : null;
+};
+
+const fit = (value: string, width: number) => {
+  const text = value.trim();
+  if (text.length >= width) {
+    return text.slice(0, width);
+  }
+  return text.padEnd(width, " ");
+};
+
+const center = (value: string, width: number) => {
+  const text = value.trim();
+  if (text.length >= width) {
+    return text.slice(0, width);
+  }
+  const left = Math.floor((width - text.length) / 2);
+  const right = width - text.length - left;
+  return `${" ".repeat(left)}${text}${" ".repeat(right)}`;
+};
+
+const row = (left: string, right = "", splitAt = 38, total = 78) => {
+  const leftPart = fit(left, splitAt);
+  const rightWidth = Math.max(total - splitAt, 0);
+  const rightPart = fit(right, rightWidth);
+  return `${leftPart}${rightPart}`;
+};
+
+const rowThree = (
+  left: string,
+  middle: string,
+  right: string,
+  leftWidth = 20,
+  middleWidth = 32,
+  total = 78,
+) => {
+  const rightWidth = Math.max(total - leftWidth - middleWidth, 0);
+  return `${fit(left, leftWidth)}${fit(middle, middleWidth)}${fit(right, rightWidth)}`;
 };
 
 export default function Home() {
@@ -64,20 +89,51 @@ export default function Home() {
   const [downloadingOrientation, setDownloadingOrientation] = useState<PdfOrientation | null>(null);
   const documentRef = useRef<HTMLDivElement>(null);
 
-  const netWeight = useMemo(() => {
-    const loaded = parseWeight(data.loadedWt);
-    const empty = parseWeight(data.emptyWt);
-    if (loaded === null || empty === null) {
-      return "";
-    }
-
-    return formatWeight(String(Math.max(loaded - empty, 0)));
-  }, [data.loadedWt, data.emptyWt]);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setData((previous) => ({ ...previous, [name]: value }));
   };
+
+  const ticketText = useMemo(() => {
+    const total = 78;
+    const loaded = parseWeight(data.loadedWt);
+    const empty = parseWeight(data.emptyWt);
+    const loadedText = loaded === null ? "" : `${Math.max(loaded, 0)} KGS`;
+    const emptyText = empty === null ? "" : `${Math.max(empty, 0)} KGS`;
+    const netNumber = loaded === null || empty === null ? "0" : String(Math.max(loaded - empty, 0));
+    const netText = `${netNumber} KGS`;
+    const chargeText = `Rs. ${Number(data.charges || 0).toFixed(2)}`;
+
+    return [
+      row("", `DATE:${data.date}`, 56, total),
+      center(data.weighbridgeName, total),
+      center("COMPUTERISED 40 TONNES CAPACITY", total),
+      center(`${data.weighbridgeAddress} : ${data.serialNo}`, total),
+      center("WEIGHMENTS SLP", total),
+      "",
+      row(`TSNO     : ${data.ticketNo}`, `PARTY   : ${data.party}`, 39, total),
+      row(`VEHICLE  : ${data.vehicleNo}`, `PRODUCT : ${data.product}`, 39, total),
+      rowThree("LOADED WT :", data.printedAt, loadedText, 20, 38, total),
+      row("EMPTY WT  :", emptyText, 39, total),
+      row("NET WT    :", netText, 39, total),
+      "",
+      row(`CHARGES   : ${chargeText}`, `For ${data.printedFor}`, 39, total),
+    ].join("\n");
+  }, [
+    data.charges,
+    data.date,
+    data.emptyWt,
+    data.loadedWt,
+    data.party,
+    data.printedAt,
+    data.printedFor,
+    data.product,
+    data.serialNo,
+    data.ticketNo,
+    data.vehicleNo,
+    data.weighbridgeAddress,
+    data.weighbridgeName,
+  ]);
 
   const downloadPdf = async (orientation: PdfOrientation) => {
     const node = documentRef.current;
@@ -197,71 +253,8 @@ export default function Home() {
       <section className={styles.previewPanel}>
         <div className={styles.document} ref={documentRef}>
           <div className={styles.tearEdgeTop} />
-          <div className={styles.ticketHeaderRow}>
-            <div className={styles.headerCenter}>
-              <p className={styles.title}>{data.weighbridgeName}</p>
-              <p>{data.weighbridgeAddress}</p>
-              <p>CAPACITY 40 TONNES</p>
-              <p>TEL 1 : {data.phone} &nbsp;&nbsp; SERIAL NO.: {data.serialNo}</p>
-            </div>
-            <p className={styles.dateText}>DATE: {data.date}</p>
-          </div>
-
-          <div className={styles.rows}>
-            <div className={styles.rowPair}>
-              <p>
-                <span className={styles.label}>TSNO</span>
-                <span className={styles.colon}>:</span>
-                <span>{data.ticketNo}</span>
-              </p>
-              <p>
-                <span className={styles.label}>PARTY</span>
-                <span className={styles.colon}>:</span>
-                <span>{data.party}</span>
-              </p>
-            </div>
-            <div className={styles.rowPair}>
-              <p>
-                <span className={styles.label}>VEHICLE</span>
-                <span className={styles.colon}>:</span>
-                <span>{data.vehicleNo}</span>
-              </p>
-              <p>
-                <span className={styles.label}>PRODUCT</span>
-                <span className={styles.colon}>:</span>
-                <span>{data.product}</span>
-              </p>
-            </div>
-            <div className={styles.weightRow}>
-              <p>
-                <span className={styles.label}>LOADED WT</span>
-                <span className={styles.colon}>:</span>
-                <span>{formatWeight(data.loadedWt)} KGS</span>
-              </p>
-              <p className={styles.weightMeta}>{data.printedAt}</p>
-            </div>
-            <div className={styles.weightRow}>
-              <p>
-                <span className={styles.label}>EMPTY WT</span>
-                <span className={styles.colon}>:</span>
-                <span>{formatWeight(data.emptyWt)} KGS</span>
-              </p>
-            </div>
-            <div className={styles.weightRow}>
-              <p>
-                <span className={styles.label}>NET WT</span>
-                <span className={styles.colon}>:</span>
-                <span>{netWeight || "0.000"} KGS</span>
-              </p>
-            </div>
-            <div className={styles.chargesForRow}>
-              <p>
-                <span className={styles.label}>CHARGES</span>
-                <span className={styles.colon}>:</span>
-                <span>Rs. {data.charges}</span>
-              </p>
-              <p>For {data.printedFor}</p>
-            </div>
+          <div className={styles.ticketTextWrap}>
+            <pre className={styles.ticketText}>{ticketText}</pre>
           </div>
           <div className={styles.tearEdgeBottom} />
         </div>

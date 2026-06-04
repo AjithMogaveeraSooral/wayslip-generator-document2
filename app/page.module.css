@@ -85,24 +85,24 @@
 }
 
 .document {
-  width: 1100px;
-  min-height: 510px;
+  width: 1180px;
+  min-height: 530px;
   margin: 0 auto;
   background: #ffffff;
   color: #222;
   border: 1px solid #c9d2e8;
-  padding: 28px 42px 24px;
+  padding: 24px 40px;
   font-family: "Courier New", Courier, monospace;
-  font-size: 18px;
-  line-height: 1.28;
-  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 700;
   box-shadow: 0 14px 32px rgba(25, 41, 87, 0.14);
   position: relative;
 }
 
 .document,
 .document * {
-  font-weight: 300;
+  font-weight: 700;
 }
 
 .tearEdgeTop,
@@ -124,82 +124,18 @@
   bottom: -6px;
 }
 
-.ticketHeaderRow {
-  position: relative;
-  margin-bottom: 14px;
-  min-height: 74px;
+.ticketTextWrap {
+  width: 76%;
+  margin: 42px auto 0;
 }
 
-.ticketHeaderRow p {
+.ticketText {
   margin: 0;
-}
-
-.headerCenter {
-  width: 100%;
-  text-align: center;
-}
-
-.title {
-  letter-spacing: 0.6px;
-  font-weight: 300;
-}
-
-.dateText {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-weight: 300;
-}
-
-.rows {
-  display: grid;
-  gap: 7px;
-}
-
-.rowPair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.rowPair p,
-.weightRow p {
-  margin: 0;
-}
-
-.weightRow {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 10px;
-}
-
-.label {
-  display: inline-block;
-  width: 165px;
-  font-weight: 300;
-}
-
-.colon {
-  display: inline-block;
-  width: 14px;
-}
-
-.weightMeta {
-  font-weight: 300;
-}
-
-.chargesForRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 18px;
-  margin-top: 2px;
-}
-
-.chargesForRow p {
-  margin: 0;
-  font-weight: 300;
+  white-space: pre;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+  line-height: 1.22;
+  letter-spacing: 0;
 }
 
 @media (max-width: 1300px) {
@@ -215,32 +151,13 @@
   }
 
   .document {
-    width: 980px;
+    width: 1040px;
     min-height: 460px;
     padding: 24px;
   }
 
-  .ticketHeaderRow {
-    min-height: 88px;
-  }
-
-  .label {
-    width: 145px;
-  }
-
-  .rowPair {
-    grid-template-columns: 1fr;
-  }
-
-  .dateText {
-    position: static;
-    text-align: center;
-    margin-top: 6px;
-  }
-
-  .weightRow,
-  .chargesForRow {
-    grid-template-columns: 1fr;
-    display: grid;
+  .ticketTextWrap {
+    width: 92%;
+    margin-top: 20px;
   }
 }
