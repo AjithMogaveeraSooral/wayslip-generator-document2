@@ -1,0 +1,246 @@
+.page {
+  min-height: 100vh;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 20px;
+  background: radial-gradient(circle at 15% 20%, #f2f5ff 0%, #dce4fa 40%, #ccd8f7 100%);
+}
+
+.formPanel {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #c2ceea;
+  box-shadow: 0 18px 36px rgba(16, 37, 96, 0.12);
+  height: fit-content;
+}
+
+.formPanel h1 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.formPanel p {
+  color: #46557b;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.formGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.formGrid label {
+  font-size: 0.7rem;
+  color: #33456f;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGrid input {
+  border: 1px solid #b7c6e8;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  color: #1a2b53;
+}
+
+.formPanel button {
+  margin-top: 14px;
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 11px 12px;
+  background: #17337d;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.downloadActions {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.downloadActions button {
+  margin-top: 0;
+}
+
+.formPanel button:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.previewPanel {
+  overflow: auto;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid #c5d2ee;
+  background: linear-gradient(130deg, #eff4ff 0%, #dde8ff 100%);
+}
+
+.document {
+  width: 1100px;
+  min-height: 510px;
+  margin: 0 auto;
+  background: #ffffff;
+  color: #222;
+  border: 1px solid #c9d2e8;
+  padding: 28px 42px 24px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 18px;
+  line-height: 1.28;
+  font-weight: 300;
+  box-shadow: 0 14px 32px rgba(25, 41, 87, 0.14);
+  position: relative;
+}
+
+.document,
+.document * {
+  font-weight: 300;
+}
+
+.tearEdgeTop,
+.tearEdgeBottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background-image: radial-gradient(circle, transparent 5px, #ffffff 6px);
+  background-size: 24px 12px;
+  background-repeat: repeat-x;
+}
+
+.tearEdgeTop {
+  top: -6px;
+}
+
+.tearEdgeBottom {
+  bottom: -6px;
+}
+
+.ticketHeaderRow {
+  position: relative;
+  margin-bottom: 14px;
+  min-height: 74px;
+}
+
+.ticketHeaderRow p {
+  margin: 0;
+}
+
+.headerCenter {
+  width: 100%;
+  text-align: center;
+}
+
+.title {
+  letter-spacing: 0.6px;
+  font-weight: 300;
+}
+
+.dateText {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: 300;
+}
+
+.rows {
+  display: grid;
+  gap: 7px;
+}
+
+.rowPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.rowPair p,
+.weightRow p {
+  margin: 0;
+}
+
+.weightRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.label {
+  display: inline-block;
+  width: 165px;
+  font-weight: 300;
+}
+
+.colon {
+  display: inline-block;
+  width: 14px;
+}
+
+.weightMeta {
+  font-weight: 300;
+}
+
+.chargesForRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 18px;
+  margin-top: 2px;
+}
+
+.chargesForRow p {
+  margin: 0;
+  font-weight: 300;
+}
+
+@media (max-width: 1300px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .document {
+    width: 980px;
+    min-height: 460px;
+    padding: 24px;
+  }
+
+  .ticketHeaderRow {
+    min-height: 88px;
+  }
+
+  .label {
+    width: 145px;
+  }
+
+  .rowPair {
+    grid-template-columns: 1fr;
+  }
+
+  .dateText {
+    position: static;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  .weightRow,
+  .chargesForRow {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
