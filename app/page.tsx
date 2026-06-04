@@ -264,11 +264,9 @@ export default function Home() {
 
       <section className={styles.previewPanel}>
         <div className={styles.document} ref={documentRef}>
-          <div className={styles.tearEdgeTop} />
           <div className={styles.ticketTextWrap}>
             <pre className={styles.ticketText}>{ticketText}</pre>
           </div>
-          <div className={styles.tearEdgeBottom} />
         </div>
       </section>
     </div>

@@ -105,25 +105,6 @@
   font-weight: 700;
 }
 
-.tearEdgeTop,
-.tearEdgeBottom {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 12px;
-  background-image: radial-gradient(circle, transparent 5px, #ffffff 6px);
-  background-size: 24px 12px;
-  background-repeat: repeat-x;
-}
-
-.tearEdgeTop {
-  top: -6px;
-}
-
-.tearEdgeBottom {
-  bottom: -6px;
-}
-
 .ticketTextWrap {
   width: 76%;
   margin: 42px auto 0;
