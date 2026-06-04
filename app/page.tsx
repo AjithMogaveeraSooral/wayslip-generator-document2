@@ -72,7 +72,16 @@ const row = (left: string, right = "", splitAt = 38, total = 78) => {
   return `${leftPart}${rightPart}`;
 };
 
-const rowThree = (
+const rowRight = (left: string, right = "", splitAt = 38, total = 78) => {
+  const leftPart = fit(left, splitAt);
+  const rightWidth = Math.max(total - splitAt, 0);
+  const rightText = right.trim();
+  const clipped = rightText.length > rightWidth ? rightText.slice(0, rightWidth) : rightText;
+  const rightPart = clipped.padStart(rightWidth, " ");
+  return `${leftPart}${rightPart}`;
+};
+
+const rowThreeRight = (
   left: string,
   middle: string,
   right: string,
@@ -81,7 +90,9 @@ const rowThree = (
   total = 78,
 ) => {
   const rightWidth = Math.max(total - leftWidth - middleWidth, 0);
-  return `${fit(left, leftWidth)}${fit(middle, middleWidth)}${fit(right, rightWidth)}`;
+  const rightText = right.trim();
+  const clipped = rightText.length > rightWidth ? rightText.slice(0, rightWidth) : rightText;
+  return `${fit(left, leftWidth)}${fit(middle, middleWidth)}${clipped.padStart(rightWidth, " ")}`;
 };
 
 export default function Home() {
@@ -113,11 +124,11 @@ export default function Home() {
       "",
       row(`TSNO     : ${data.ticketNo}`, `PARTY   : ${data.party}`, 39, total),
       row(`VEHICLE  : ${data.vehicleNo}`, `PRODUCT : ${data.product}`, 39, total),
-      rowThree("LOADED WT :", data.printedAt, loadedText, 20, 38, total),
-      row("EMPTY WT  :", emptyText, 39, total),
-      row("NET WT    :", netText, 39, total),
+      rowThreeRight("LOADED WT :", data.printedAt, loadedText, 20, 38, total),
+      rowRight("EMPTY WT  :", emptyText, 39, total),
+      rowRight("NET WT    :", netText, 39, total),
       "",
-      row(`CHARGES   : ${chargeText}`, `For ${data.printedFor}`, 39, total),
+      rowRight(`CHARGES   : ${chargeText}`, `For ${data.printedFor}`, 39, total),
     ].join("\n");
   }, [
     data.charges,
