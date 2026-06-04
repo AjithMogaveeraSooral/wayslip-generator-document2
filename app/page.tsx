@@ -124,6 +124,7 @@ export default function Home() {
       "",
       row(`TSNO     : ${data.ticketNo}`, `PARTY   : ${data.party}`, 39, total),
       row(`VEHICLE  : ${data.vehicleNo}`, `PRODUCT : ${data.product}`, 39, total),
+      "",
       rowThreeRight("LOADED WT :", data.printedAt, loadedText, 20, 38, total),
       rowRight("EMPTY WT  :", emptyText, 39, total),
       rowRight("NET WT    :", netText, 39, total),
